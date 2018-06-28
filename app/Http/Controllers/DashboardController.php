@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     /**
-     * Show the home page.
+     * Show the dashboard page.
      *
-     * @param  int  $id
      * @return Response
      */
     public function __invoke()

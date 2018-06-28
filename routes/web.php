@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/','HomeController');
-
 // Authorization
 Route::get('login', 'Auth\SessionController@getLogin')->name('auth.login.form');
 Route::post('login', 'Auth\SessionController@postLogin')->name('auth.login.attempt');
@@ -39,5 +37,15 @@ Route::resource('users', 'UserController');
 // Roles
 Route::resource('roles', 'RoleController');
 
+// Posts
+Route::resource('posts', 'PostController');
+
 // Dashboard
-Route::get('dashboard', 'DashboardController') ->name('dashboard');
+Route::get('dashboard', 'DashboardController')->name('dashboard');
+
+// Home page 
+Route::get('/', 'HomeController');
+
+// Single post page
+Route::get('/{slug}', 'HomeController@showPost')->name('home.post.show');
+
