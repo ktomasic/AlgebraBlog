@@ -15,4 +15,14 @@ Algebra Blog | {{ $post->title }}
 			{!! $post->content !!}
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			@if (Sentinel::check())
+
+			/*tu prikazati formu za komentiramnje*/
+			@else
+			/*tu prikazati link za login*/
+			@endif
+		</div>
+	</div>
 @endsection

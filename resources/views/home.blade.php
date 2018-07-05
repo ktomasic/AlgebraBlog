@@ -1,7 +1,7 @@
 @extends('Centaur::layout')
 
-@section('title') 
-Algebra Blog 
+@section('title')
+Algebra Blog
 @endsection
 
 @section('content')
@@ -19,6 +19,9 @@ Algebra Blog
 					</div>
 				</div>
 			@endforeach
+		</div>
+		<div class="row">				/*Listanje stranica*/
+			{{$posts->links()}}
 		</div>
 	@else
 		<h1>Trenutno nema objava!</h1>

@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Post;
-
 class HomeController extends Controller
 {
     /**
@@ -14,10 +11,10 @@ class HomeController extends Controller
      */
     public function __invoke()
     {
-		$posts = Post::all();
+		$posts = Post::orderBy('created_at', 'desc')->paginate(12);
         return view('home', ['posts' => $posts]);
     }
-	
+
 	/**
      * Show the single post page.
      *
@@ -26,7 +23,6 @@ class HomeController extends Controller
 	public function showPost($slug)
 	{
 		$post = Post::where('slug', $slug)->firstOrFail();
-
 		return view('post', ['post' => $post]);
 	}
 }
