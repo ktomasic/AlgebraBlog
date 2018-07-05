@@ -4,25 +4,62 @@
 Algebra Blog | {{ $post->title }}
 @endsection
 
-@section('content')
-	<div class="page-header">
-        <h1>{{ $post->title }}</h1> //ispisuje se naslov posta
-		<small>Author: {{ $post->user->email }}</small><br> //ispis autora
-		<small>Published: {{ \Carbon\Carbon::createFromTimestamp(strtotime($post->created_at))->diffForHumans() }}</small> //ispis datuma kreiranja
-    </div>
-	<div class="row">
-		<div class="col-sm-12">
-			{!! $post->content !!}
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			@if (Sentinel::check())
 
-			/*tu prikazati formu za komentiramnje*/
-			@else
-			/*tu prikazati link za login*/
-			@endif
-		</div>
-	</div>
+@section('content')
+
+    <div class="page-header">
+        <h1>{{ $post->title }}</h1>
+        <small>Author: {{ $post->user->email }}</small><br />
+        <small>Published: {{ \Carbon\Carbon::createFromTimestamp(strtotime($post->created_at))->diffForHumans() }}</small>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ $post->content }}
+        </div>
+    </div>
+
+    <h3 style="margin-top:50px">Comments:</h3>
+
+    <div class="row" style="margin-top:50px">
+        <div class="col-sm-8">
+            @if(Sentinel::check())
+
+            <div class="col-sm-12">
+                <form method="post" action="{{ route('comments.store')}}">
+                   <div class="form-group {{ ($errors->has('title')) ? 'has-error' : '' }}">
+                       <label for="title" class="control-label">Comment Title</label>
+                       <input type="text" class="form-control" id="title" name="commentTitle" placeholder="Enter Comment Title">
+                       {!! ($errors->has('title')) ? $errors->first('title', '<p class="text-danger">:message</p>') : '' !!}
+                    </div>
+                    <div class="form-group {{ ($errors->has('content')) ? 'has-error' : '' }}">
+
+                       <label for="content" class="control-label">Comment Content</label>
+                        <textarea class="form-control" id="content" name="commentContent" rows="5"></textarea>
+                        {!! ($errors->has('title')) ? $errors->first('content', '<p class="text-danger">:message</p>') : '' !!}
+                    </div>
+                    <input type="hidden" name="postId" id="hiddenField" value="{{ $post->id }}" />
+                      {{ csrf_field() }}
+                       <button type="submit" class="btn btn-primary">Add Comment</button>
+
+                </form>
+            </div>
+        </div>
+            @else
+        <a href="login"><h4 style="margin-bottom:10px">Please log in to post a comment</h4></a>
+            @endif
+        </div>
+
+    <div class="row" style="margin-top:50px">
+        <div class="col-sm-12" style="margin-bottom:50px">
+            <div class="table" style="padding:10px 10px" >
+                @foreach($comments as $comment)
+                  <div style="margin-bottom:5px; background-color: #f7f8f9; padding:10px 10px" class="row">
+                    <h4 class="media-heading">{{ $comment->title }}</h4>
+                      <p><small>Author: {{ $comment->user->email }}</small></p>
+                    {{ $comment->content }}<br><br>
+                  </div>
+                  @endforeach
+                </div>
+        </div>
+    </div>
 @endsection

@@ -1,48 +1,44 @@
 <?php
-
 namespace App\Models;
-
+//use van klase je za servis
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-
 class Post extends Model
 {
-	use Sluggable;
-
-    /**
+    //koristi trait Sluggable
+    use Sluggable;
+     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['title', 'content', 'user_id'];
 
-	/**
-     * Save new post
-     *
-     * @param array $data
-	 * @return object Post
-     */
-	public function savePost($data)
-	{
-		return $this->create($data);
-	}
+    /**
+    * save new post
+    *
+    * @param array $data
+    * @return object Post -- da ne moramo 2 zahtjeva bazi slati, odmah ga imamo
+    *
+    */
+    public function savePost($data = array())
+    {
+        return $this->create($data);
+    }
 
-	/**
-     * Update post
-     *
-     * @param array $data
-	 * @return void
-     */
-	public function updatePost($data)
-	{
-		$this->update($data);
-	}
+    /**
+    * update post
+    *
+    * @param array $data
+    * @return void
+    *
+    */
 
-	/**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
+    public function updatePost($data)
+    {
+        $this->update($data);
+    }
+
     public function sluggable()
     {
         return [
@@ -51,24 +47,23 @@ class Post extends Model
             ]
         ];
     }
-
-	/**
-     * Return the user relationship.
+     /**
+     * return user relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
      */
-	public function user()
-	{
-		return $this->belongsTo('App\Models\User');
+    public function user()
+    {   //model user komunicira s bazom
+        return $this->belongsTo('App\Models\User');
     }
 
-    	/**
-     * Return the post relationship.
+     /**
+     * return comment relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     *
      */
-	public function comment()
-	{
-		return $this->hasMany('App\Models\Comment');
-	}
+    public function comment()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
 }
